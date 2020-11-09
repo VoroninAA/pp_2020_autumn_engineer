@@ -1,8 +1,8 @@
 // Copyright 2020 Voronin Aleksey
 #include <mpi.h>
-#include <math.h>
 #include <vector>
 #include <random>
+#include <ctime>
 #include <algorithm>
 #include "../../../modules/task_2/voronin_a_vertical_gaussian_method/vertical_gaussian_method.h"
 
