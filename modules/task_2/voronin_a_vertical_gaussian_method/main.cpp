@@ -61,7 +61,8 @@ TEST(Parallel_Operations_MPI, cant_get_result_with_wrong_input) {
         const int unknownNumber = 4;
         std::vector<double> sampleMatrix = {1, -1, -5,
                                             2, 1, -7};
-        ASSERT_ANY_THROW(std::vector<double> result = sequentialGaussianMethod(sampleMatrix, unknownNumber));
+        std::vector<double> result = sequentialGaussianMethod(sampleMatrix, unknownNumber);
+        ASSERT_EQ(result.size(), (unsigned int) 0);
     }
 }
 
@@ -73,7 +74,8 @@ TEST(Parallel_Operations_MPI, cant_get_result_with_negative_input) {
         const int unknownNumber = -1;
         std::vector<double> sampleMatrix = {1, -1, -5,
                                             2, 1, -7};
-        ASSERT_ANY_THROW(std::vector<double> result = sequentialGaussianMethod(sampleMatrix, unknownNumber));
+        std::vector<double> result = sequentialGaussianMethod(sampleMatrix, unknownNumber);
+        ASSERT_EQ(result.size(), (unsigned int) 0);
     }
 }
 

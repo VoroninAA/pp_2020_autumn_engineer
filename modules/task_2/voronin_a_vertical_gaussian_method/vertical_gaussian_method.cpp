@@ -17,8 +17,11 @@ std::vector<double> getRandomMatrixLinear(const int matrixSize) {
 }
 
 std::vector<double> sequentialGaussianMethod(std::vector<double> initialMatrix, int equationAmount) {
-  if (initialMatrix.size() != (unsigned int)((equationAmount + 1) * equationAmount) || equationAmount <= 0)
-    std::__throw_runtime_error("Wrong Input");
+  if (initialMatrix.size() != (unsigned int)((equationAmount + 1) * equationAmount) || equationAmount <= 0) {
+      std::vector<double> empty(0);
+      return empty;
+  }
+
   int i, j, k;
   double tmp;
   std::vector<double> results = std::vector<double>(equationAmount);
@@ -45,9 +48,10 @@ std::vector<double> sequentialGaussianMethod(std::vector<double> initialMatrix, 
 }
 
 std::vector<double> parallelGaussianMethod(std::vector<double> initialMatrix, int equationAmount) {
-  if (initialMatrix.size() != (unsigned int)((equationAmount + 1) * equationAmount) || equationAmount <= 0)
-    std::__throw_runtime_error("Wrong Input");
-
+  if (initialMatrix.size() != (unsigned int)((equationAmount + 1) * equationAmount) || equationAmount <= 0) {
+      std::vector<double> empty(0);
+      return empty;
+  }
   std::vector<double> results = std::vector<double>(equationAmount);
 
   int i, j, k;
@@ -58,18 +62,8 @@ std::vector<double> parallelGaussianMethod(std::vector<double> initialMatrix, in
   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
   MPI_Comm_size(MPI_COMM_WORLD, &nprocs);
 
-  if (rank == 0) {
-    std::cout << "initialMatrix: " << std::endl;
-    for (i = 0; i < equationAmount; i++) {
-      for (j = 0; j < equationAmount + 1; j++) {
-        std::cout << initialMatrix[i * (equationAmount + 1) + j] << " ";
-      }
-      std::cout << std::endl;
-    }
-  }
-
-    for (i = 0; i < equationAmount; i++)
-        map[i] = i % nprocs;
+  for (i = 0; i < equationAmount; i++)
+      map[i] = i % nprocs;
 
   for (k = 0; k < equationAmount; k++) {
     MPI_Bcast(&initialMatrix[k * (equationAmount + 1) + k], equationAmount - k + 1, MPI_DOUBLE, map[k], MPI_COMM_WORLD);
@@ -102,11 +96,5 @@ std::vector<double> parallelGaussianMethod(std::vector<double> initialMatrix, in
     }
   }
 
-  if (rank == 0) {
-    printf("\nThe solution is:");
-    for (i = 0; i < equationAmount; i++) {
-      printf("\nx%d=%f\t", i, results[i]);
-    }
-  }
   return results;
 }
