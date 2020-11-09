@@ -56,7 +56,8 @@ std::vector<double> parallelGaussianMethod(std::vector<double> initialMatrix, in
 
   int i, j, k;
   std::vector<int> map(equationAmount);
-  double tmp[equationAmount], sum = 0.0;
+  std::vector<double> tmp(equationAmount); 
+  double sum = 0.0;
   int rank, nprocs;
 
   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
