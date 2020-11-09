@@ -56,7 +56,7 @@ std::vector<double> parallelGaussianMethod(std::vector<double> initialMatrix, in
 
   int i, j, k;
   std::vector<int> map(equationAmount);
-  std::vector<double> tmp(equationAmount); 
+  std::vector<double> tmp(equationAmount);
   double sum = 0.0;
   int rank, nprocs;
 
