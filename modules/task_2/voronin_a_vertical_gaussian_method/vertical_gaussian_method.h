@@ -4,6 +4,7 @@
 
 #include <vector>
 std::vector<double> getRandomMatrixLinear(const int matrixSize);
+std::vector<double> transMatrix(std::vector<double>  matrix, int equationAmount);
 std::vector<double> sequentialGaussianMethod(std::vector<double> initialMatrix, int equationAmount);
 // std::vector<double> parallelGaussianMethod(std::vector<double> initialMatrix, int equationAmount);
 std::vector <double> parallelGaussianMethod(const std::vector <double> &a, size_t rows, size_t cols);

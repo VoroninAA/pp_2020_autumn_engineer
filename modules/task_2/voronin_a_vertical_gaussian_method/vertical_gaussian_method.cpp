@@ -6,31 +6,52 @@
 #include <algorithm>
 #include "../../../modules/task_2/voronin_a_vertical_gaussian_method/vertical_gaussian_method.h"
 
-std::vector<double> getRandomMatrixLinear(const int matrixSize) {
+std::vector<double> transMatrix(std::vector<double> matrix, int equationAmount)
+{
+  double t;
+  for (int i = 0; i < equationAmount; i++)
+  {
+    for (int j = i; j < equationAmount; j++)
+    {
+      t = matrix[i * (equationAmount + 1) + j];
+      matrix[i * (equationAmount + 1) + j] = matrix[j * (equationAmount + 1) + i];
+      matrix[j * (equationAmount + 1) + i] = t;
+    }
+  }
+  return matrix;
+}
+
+std::vector<double> getRandomMatrixLinear(const int matrixSize)
+{
   std::mt19937 gen;
   gen.seed(static_cast<unsigned int>(time(0)));
   std::vector<double> linearMatrix(matrixSize * (matrixSize + 1));
-  for (int i = 0; i < matrixSize * (matrixSize + 1); i++) {
+  for (int i = 0; i < matrixSize * (matrixSize + 1); i++)
+  {
     linearMatrix[i] = (gen() % 5) + 1;
   }
   return linearMatrix;
 }
 
-std::vector<double> sequentialGaussianMethod(std::vector<double> initialMatrix, int equationAmount) {
-  if (initialMatrix.size() != (unsigned int)((equationAmount + 1) * equationAmount) || equationAmount <= 0) {
-      std::vector<double> empty(0);
-      return empty;
+std::vector<double> sequentialGaussianMethod(std::vector<double> initialMatrix, int equationAmount)
+{
+  if (initialMatrix.size() != (unsigned int)((equationAmount + 1) * equationAmount) || equationAmount <= 0)
+  {
+    std::vector<double> empty(0);
+    return empty;
   }
 
   int i, j, k;
   double tmp;
   std::vector<double> results = std::vector<double>(equationAmount);
 
-  for (i = 0; i < equationAmount; i++) {
+  for (i = 0; i < equationAmount; i++)
+  {
     tmp = initialMatrix[i * (equationAmount + 1) + i];
     for (j = equationAmount; j >= i; j--)
       initialMatrix[i * (equationAmount + 1) + j] /= tmp;
-    for (j = i + 1; j < equationAmount; j++) {
+    for (j = i + 1; j < equationAmount; j++)
+    {
       tmp = initialMatrix[j * (equationAmount + 1) + i];
       for (k = equationAmount; k >= i; k--)
         initialMatrix[j * (equationAmount + 1) + k] -= tmp * initialMatrix[i * (equationAmount + 1) + k];
@@ -38,7 +59,8 @@ std::vector<double> sequentialGaussianMethod(std::vector<double> initialMatrix, 
   }
 
   results[equationAmount - 1] = initialMatrix[(equationAmount - 1) * (equationAmount + 1) + equationAmount];
-  for (i = equationAmount - 2; i >= 0; i--) {
+  for (i = equationAmount - 2; i >= 0; i--)
+  {
     results[i] = initialMatrix[i * (equationAmount + 1) + equationAmount];
     for (j = i + 1; j < equationAmount; j++)
       results[i] -= initialMatrix[i * (equationAmount + 1) + j] * results[j];
