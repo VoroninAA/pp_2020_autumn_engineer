@@ -115,17 +115,13 @@ std::vector <double> parallelGaussianMethod(const std::vector <double> &a, size_
         code = 1;
     }
     MPI_Bcast(&code, 1, MPI_INT, 0, MPI_COMM_WORLD);
-    if (code != 0) {
-        throw std::runtime_error("Matrix sizes does not match");
-    }
+
 
     if (rows + 1 != cols) {
         code = 2;
     }
     MPI_Bcast(&code, 1, MPI_INT, 0, MPI_COMM_WORLD);
-    if (code != 0) {
-        throw std::runtime_error("Incorrect amount of rows and cols");
-    }
+
 
     std::vector <double> v((delta + (rank < rem ? 1 : 0)) * rows);
 
