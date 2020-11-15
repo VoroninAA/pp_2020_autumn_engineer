@@ -86,10 +86,27 @@ TEST(Parallel_Operations_MPI, can_get_result_with_parallel_version_two_unknowns)
     const int unknownNumber = 2;
     std::vector<double> sampleMatrix = {1, -1, -5,
                                         2, 1, -7};
-    std::vector<double> result = parallelGaussianMethod(sampleMatrix, unknownNumber);
+    std::vector<double> result = parallelGaussianMethod(sampleMatrix, unknownNumber, unknownNumber+1);
     if (rank == 0) {
         std::vector<double> expectedResult = {-4, 1};
         ASSERT_EQ(result, expectedResult);
+    }
+}
+
+TEST(Parallel_Operations_MPI, can_get_result_with_parallel_version_three_unknowns) {
+    int rank;
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+
+    const int unknownNumber = 3;
+        std::vector<double> sampleMatrix = {2, 1, 1, 2,
+                                            1, -1, 0, -2,
+                                            3, -1, 2, 2};
+    std::vector<double> result = parallelGaussianMethod(sampleMatrix, unknownNumber, unknownNumber+1);
+    if (rank == 0) {
+        std::vector<double> expectedResult = {-1, 1, 3};
+        for (size_t i = 0; i < 3; i++) {
+            ASSERT_NEAR(result[i], expectedResult[i], 0.1);
+        }
     }
 }
 
