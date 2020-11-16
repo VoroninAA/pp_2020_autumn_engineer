@@ -1,7 +1,7 @@
 // Copyright 2020 Voronin Aleksey
 #include <gtest-mpi-listener.hpp>
 #include <gtest/gtest.h>
-#include <math.h>
+#include <cmath>
 #include <vector>
 #include "./vertical_gaussian_method.h"
 
@@ -9,7 +9,7 @@ TEST(Parallel_Operations_MPI, can_get_random_linear_matrix) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     if (rank == 0) {
-        const int rows = 5;
+        const int rows = 3;
         ASSERT_NO_THROW(getRandomMatrixLinear(rows));
     }
 }
@@ -130,7 +130,7 @@ TEST(Parallel_Operations_MPI, can_compare_result_with_parallel_version_random_ma
     if (rank == 0) {
         std::vector<double> expectedResult = calculateResults(sample_matrix, rows, values);
         for (size_t i = 0; i < rows; i++) {
-            if (isnan(expectedResult[i])) {
+            if (std::isnan(expectedResult[i])) {
                 break;
             }
             ASSERT_NEAR(sample_matrix[(rows+1)*i+rows], expectedResult[i], 0.1);
