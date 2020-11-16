@@ -130,7 +130,7 @@ TEST(Parallel_Operations_MPI, can_compare_result_with_parallel_version_random_ma
     if (rank == 0) {
         std::vector<double> expectedResult = calculateResults(sample_matrix, rows, values);
         for (size_t i = 0; i < rows; i++) {
-            if (std::isnan(expectedResult[i])) {
+            if (isnan(expectedResult[i])) {
                 break;
             }
             ASSERT_NEAR(sample_matrix[(rows+1)*i+rows], expectedResult[i], 0.1);
