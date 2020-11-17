@@ -116,7 +116,8 @@ std::vector <double> parallelGaussianMethod(std::vector <double> matrix, size_t 
 
     // after previous actions the process, which was working with b row sends results to 0 process.
     if ((cols - 1) % size == (size_t)rank) {
-        MPI_Send(vec.data() + ((cols - 1) / size) * rows, rows, MPI_DOUBLE, 0, 0, MPI_COMM_WORLD);
+        MPI_Request request;
+        MPI_Isend(vec.data() + ((cols - 1) / size) * rows, rows, MPI_DOUBLE, 0, 0, MPI_COMM_WORLD, &request);
     }
 
     if (rank == 0) {
@@ -125,5 +126,6 @@ std::vector <double> parallelGaussianMethod(std::vector <double> matrix, size_t 
         MPI_Recv(vec.data(), rows, MPI_DOUBLE, (cols - 1) % size, 0, MPI_COMM_WORLD, &status);
     }
 
+    MPI_Barrier(MPI_COMM_WORLD);
     return vec;
 }
