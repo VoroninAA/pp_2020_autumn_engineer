@@ -75,7 +75,7 @@ std::vector <double> parallelGaussianMethod(std::vector <double> matrix, size_t 
 
     std::vector <double> vec((delta + (rank < remaining ? 1 : 0)) * rows);
 
-    // Creation and distribution of columns
+    // Creation and distribution of columns to processes
     if (rank == 0) {
         for (int proc = size - 1; proc >= 0; --proc) {
             int index = 0;
